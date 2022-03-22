@@ -43,14 +43,23 @@ def get_patient_list():
 @app.route('/get_patients', methods=['GET'])
 def get_patient():
     request_args = request.get_json(force=True)
-    name,dob,conditions=request_args['name'], request_args['dob'], request_args['conditions']
-    if dob:
-        dob='%s-%s-%s'%(dob.split("/")[-1],dob.split("/")[-2],dob.split("/")[-3])
-    if name:
-        name={"$regex" : name, '$options' : 'i'}
+    name=''
+    if 'name' in list(request_args.keys()):
+        name=request_args['name']
+        if name:
+            name={"$regex": name, '$options': 'i'}
 
-    if conditions:
-        conditions={"$regex" : conditions, '$options' : 'i'}
+    dob=''
+    if 'dob' in list(request_args.keys()):
+        dob=request_args['dob']
+        if dob:
+            dob = '%s-%s-%s' % (dob.split("/")[-1], dob.split("/")[-2], dob.split("/")[-3])
+
+    conditions=''
+    if 'conditions' in list(request_args.keys()):
+        conditions=request_args['conditions']
+        if conditions:
+            conditions = {"$regex": conditions, '$options': 'i'}
 
     query={'Name':name,'DoB':dob,'Texts':conditions}
     result=mongofind_all_specific_cond(dbname,client,coll_name,query)
