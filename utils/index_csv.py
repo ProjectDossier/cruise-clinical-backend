@@ -16,7 +16,7 @@ def mongoimport(csv_path, db_name, coll_name, client,sep='\t'):
 def mongofind_all_specific_col(db_name,client,coll_name,column):
     db = client[db_name]
     coll = db[coll_name]
-    docs = coll.find({}, {column: 1, '_id': 0,'ID':1 })
+    docs = coll.find({}, {column: 1, '_id': 0,'id':1 })
     final_list=[]
     for doc in docs:
         final_list.append(doc)

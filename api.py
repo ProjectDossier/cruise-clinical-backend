@@ -70,7 +70,8 @@ def get_patient():
 def post_queries():
     coll_name_queries='patient_queries'
     request_args = request.get_json(force=True)
-    pid,query1,query2=request_args['pid'],request_args['query1'],request_args['query2']
+    pid,query=request_args['id'],request_args['query']
+    query1,query2=query.split("|")[0],query.split("|")[1]
     result=mongoimport_onesent(pid,query1,query2,dbname,client,coll_name_queries)
     return jsonify(json.dumps(result))
 
