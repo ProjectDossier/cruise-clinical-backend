@@ -1,7 +1,7 @@
 version: "2"
 services:
   medcruise-backend-container:
-    image: docker.io/library/medcruise-backend:test
+    image: docker.io/library/medcruise-backend:feature_added
     container_name: medcruise-backend-api
     ports:
       - "8083:7777"

@@ -4,7 +4,7 @@ import random
 import uuid
 import datetime
 topics=pd.read_csv('./data/topics.lst',sep='\t',header=None)
-dummy_data=pd.DataFrame(columns=['ID','Name','DoB','Condition','Texts'])
+dummy_data=pd.DataFrame(columns=['id','name','dob','texts'])
 
 def create_random_DoB():
     specific_dates=[1,15]
@@ -19,11 +19,11 @@ def create_random_conditions():
     return random.choice(conditions).replace('\n','')
 
 for ii,texts in topics.itertuples():
-    dummy_data.at[ii,'Name']=names.get_full_name()
-    dummy_data.at[ii,'Texts']=texts
-    dummy_data.at[ii,'DoB']=create_random_DoB()
-    dummy_data.at[ii,'Condition']=create_random_conditions()
-    dummy_data.at[ii,'ID']=str(uuid.uuid4())
+    dummy_data.at[ii,'name']=names.get_full_name()
+    dummy_data.at[ii,'texts']=texts
+    dummy_data.at[ii,'dob']=create_random_DoB()
+    #dummy_data.at[ii,'condition']=create_random_conditions()
+    dummy_data.at[ii,'id']=str(uuid.uuid4())
 
-dummy_data['DoB']= pd.to_datetime(dummy_data['DoB'],dayfirst=True)
+dummy_data['dob']= pd.to_datetime(dummy_data['dob'],dayfirst=True)
 dummy_data.to_csv('./data/dummy_patient_data.csv',sep='\t',index=False)

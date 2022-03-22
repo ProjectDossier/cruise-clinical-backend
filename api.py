@@ -43,18 +43,37 @@ def get_patient_list():
 @app.route('/get_patients', methods=['GET'])
 def get_patient():
     request_args = request.get_json(force=True)
-    name,dob,conditions=request_args['name'], request_args['dob'], request_args['conditions']
-    if dob:
-        dob='%s-%s-%s'%(dob.split("/")[-1],dob.split("/")[-2],dob.split("/")[-3])
-    if name:
-        name={"$regex" : name, '$options' : 'i'}
+    name=''
+    if 'name' in list(request_args.keys()):
+        name=request_args['name']
+        if name:
+            name={"$regex": name, '$options': 'i'}
 
-    if conditions:
-        conditions={"$regex" : conditions, '$options' : 'i'}
+    dob=''
+    if 'dob' in list(request_args.keys()):
+        dob=request_args['dob']
+        if dob:
+            dob = '%s-%s-%s' % (dob.split("/")[-1], dob.split("/")[-2], dob.split("/")[-3])
 
-    query={'Name':name,'DoB':dob,'Texts':conditions}
+    conditions=''
+    if 'conditions' in list(request_args.keys()):
+        conditions=request_args['conditions']
+        if conditions:
+            conditions = {"$regex": conditions, '$options': 'i'}
+
+    query={'name':name,'dob':dob,'texts':conditions}
     result=mongofind_all_specific_cond(dbname,client,coll_name,query)
     return jsonify(result)
+
+# POST Results for queries
+@app.route('/post_queries', methods=['POST'])
+def post_queries():
+    coll_name_queries='patient_queries'
+    request_args = request.get_json(force=True)
+    pid,query=request_args['id'],request_args['query']
+    query1,query2=query.split("|")[0],query.split("|")[1]
+    result=mongoimport_onesent(pid,query1,query2,dbname,client,coll_name_queries)
+    return jsonify(json.dumps(result))
 
 
 app.run(host=ARGS.host, port=ARGS.port)
