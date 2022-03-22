@@ -2,7 +2,7 @@ import pandas as pd
 import names
 import random
 import uuid
-
+import datetime
 topics=pd.read_csv('./data/topics.lst',sep='\t',header=None)
 dummy_data=pd.DataFrame(columns=['ID','Name','DoB','Condition','Texts'])
 
@@ -25,4 +25,5 @@ for ii,texts in topics.itertuples():
     dummy_data.at[ii,'Condition']=create_random_conditions()
     dummy_data.at[ii,'ID']=str(uuid.uuid4())
 
+dummy_data['DoB']= pd.to_datetime(dummy_data['DoB'],dayfirst=True)
 dummy_data.to_csv('./data/dummy_patient_data.csv',sep='\t',index=False)

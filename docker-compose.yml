@@ -1,0 +1,18 @@
+version: "2"
+services:
+  medcruise-backend-container:
+    image: docker.io/library/medcruise-backend:test
+    container_name: medcruise-backend-api
+    ports:
+      - "8083:7777"
+    environment:
+
+      MONGO_HOST: '149.132.62.152'
+      MONGO_PORT: 27017
+      MONGO_USER: "mongo_user"
+      MONGO_PASSWORD: "mongo_secret"
+
+      DUMMY_DATA_PATH: "/python/data/dummy_patient_data.csv"
+
+    volumes:
+      - ./data:/python/data

@@ -39,7 +39,7 @@ def prepare_local_machine_args(parser):
     parser.add_argument('--dummy_data_path', action=EnvDefault, envvar='DUMMY_DATA_PATH', type=str,
                         default="/Users/ricky/PycharmProjects/CMED_Backend/data/dummy_patient_data.csv")
 
-    parser.add_argument('--db_name', action=EnvDefault, envvar='DB_NAMEE', type=str,
+    parser.add_argument('--db_name', action=EnvDefault, envvar='DB_NAME', type=str,
                         default="MedCruise")
 
     parser.add_argument('--collection_name', action=EnvDefault, envvar='COLLECTION_NAME', type=str,
