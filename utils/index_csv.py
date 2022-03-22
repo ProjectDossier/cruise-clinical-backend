@@ -26,12 +26,19 @@ def mongofind_all_specific_cond(db_name,client,coll_name,conditions):
     db=client[db_name]
     coll = db[coll_name]
     cleaned_conditions={k: v for k, v in conditions.items() if v}
-    docs = coll.find(cleaned_conditions,{'ID':1,'_id':0,'Name':1,'DoB':1,'Texts':1})
-    final_list=[]
+    docs = coll.find(cleaned_conditions,{'id':1,'_id':0,'name':1,'dob':1,'texts':1})
+    final_list={}
+
     for doc in docs:
-        final_list.append(doc)
+        final_list[doc['id']]={'name':doc['name'],'dob':doc['dob'],'texts':doc['texts']}
     return final_list
 
+def mongoimport_onesent(pid,query1,query2,db_name,client,coll_name):
+    db=client[db_name]
+    coll = db[coll_name]
+    oldquery={'id':pid,'query1':query1,'query2':query2}
+    x=coll.insert_one(oldquery)
+    return x.acknowledged
 
 
 

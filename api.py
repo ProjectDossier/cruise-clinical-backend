@@ -61,9 +61,18 @@ def get_patient():
         if conditions:
             conditions = {"$regex": conditions, '$options': 'i'}
 
-    query={'Name':name,'DoB':dob,'Texts':conditions}
+    query={'name':name,'dob':dob,'texts':conditions}
     result=mongofind_all_specific_cond(dbname,client,coll_name,query)
     return jsonify(result)
+
+# POST Results for queries
+@app.route('/post_queries', methods=['POST'])
+def post_queries():
+    coll_name_queries='patient_queries'
+    request_args = request.get_json(force=True)
+    pid,query1,query2=request_args['pid'],request_args['query1'],request_args['query2']
+    result=mongoimport_onesent(pid,query1,query2,dbname,client,coll_name_queries)
+    return jsonify(json.dumps(result))
 
 
 app.run(host=ARGS.host, port=ARGS.port)
