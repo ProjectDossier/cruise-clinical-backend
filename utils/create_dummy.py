@@ -3,7 +3,7 @@ import names
 import random
 import uuid
 
-topics=pd.read_csv('topics.lst',sep='\t',header=None)
+topics=pd.read_csv('./data/topics.lst',sep='\t',header=None)
 dummy_data=pd.DataFrame(columns=['ID','Name','DoB','Condition','Texts'])
 
 def create_random_DoB():
@@ -15,7 +15,7 @@ def create_random_DoB():
     return f'''{date}/{month}/{year}'''
 
 def create_random_conditions():
-    conditions=open('medical_conditions').readlines()
+    conditions=open('./data/medical_conditions').readlines()
     return random.choice(conditions).replace('\n','')
 
 for ii,texts in topics.itertuples():
@@ -25,4 +25,4 @@ for ii,texts in topics.itertuples():
     dummy_data.at[ii,'Condition']=create_random_conditions()
     dummy_data.at[ii,'ID']=str(uuid.uuid4())
 
-dummy_data.to_csv('dummy_patient_data.csv',sep='\t',index=False)
+dummy_data.to_csv('./data/dummy_patient_data.csv',sep='\t',index=False)
