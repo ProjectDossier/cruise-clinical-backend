@@ -56,11 +56,11 @@ def get_patient():
     if 'dob' in list(request_args.keys()):
         dob=request_args['dob']
         if dob:
-            dob = '%s-%s-%s' % (dob.split("/")[-1], dob.split("/")[-2], dob.split("/")[-3])
-
+            #dob = '%s-%s-%s' % (dob.split("-")[0], dob.split("-")[1], dob.split("-")[2])
+            dob=dob
     conditions=''
-    if 'conditions' in list(request_args.keys()):
-        conditions=request_args['conditions']
+    if 'condition' in list(request_args.keys()):
+        conditions=request_args['condition']
         if conditions:
             conditions = {"$regex": conditions, '$options': 'i'}
 
