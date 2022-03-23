@@ -44,3 +44,9 @@ def prepare_local_machine_args(parser):
 
     parser.add_argument('--collection_name', action=EnvDefault, envvar='COLLECTION_NAME', type=str,
                         default="patient_data")
+
+    parser.add_argument('--mongo_build', action=EnvDefault, envvar='MONGO_BUILD', type=int,
+                        default=0)
+
+    parser.add_argument('--mongo_clean', action=EnvDefault, envvar='MONGO_CLEAN', type=int,
+                        default=0)

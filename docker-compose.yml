@@ -12,6 +12,8 @@ services:
       MONGO_USER: "mongo_user"
       MONGO_PASSWORD: "mongo_secret"
 
+      MONGO_BUILD: 0
+      MONGO_CLEANUP: 0
       DUMMY_DATA_PATH: "/python/data/dummy_patient_data.csv"
 
     volumes:

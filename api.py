@@ -18,14 +18,15 @@ mongo_url = 'mongodb://%s:%s@%s:%s' % (ARGS.mongo_user,ARGS.mongo_password,ARGS.
 client = MongoClient(mongo_url)
 dbname=ARGS.db_name
 coll_name=ARGS.collection_name
+mongo_build=ARGS.mongo_build
+mongo_clean=ARGS.mongo_clean
 
-
-@app.before_first_request
+#@app.before_first_request
 def before_first_request_func():
     print("Building Mongo")
     ids = mongoimport(ARGS.dummy_data_path, dbname, coll_name, client)
 
-@atexit.register
+#@atexit.register
 def cleanup():
     print("Cleaning up")
     db=client[dbname]
@@ -42,6 +43,8 @@ def get_patient_list():
 #Get patients with specific name and specific dob
 @app.route('/get_patients', methods=['GET'])
 def get_patient():
+    if mongo_build:
+        before_first_request_func()
     request_args = request.get_json(force=True)
     name=''
     if 'name' in list(request_args.keys()):
@@ -63,6 +66,8 @@ def get_patient():
 
     query={'name':name,'dob':dob,'texts':conditions}
     result=mongofind_all_specific_cond(dbname,client,coll_name,query)
+    if mongo_clean:
+        cleanup()
     return jsonify(result)
 
 # POST Results for queries
@@ -77,8 +82,3 @@ def post_queries():
 
 
 app.run(host=ARGS.host, port=ARGS.port)
-
-atexit.register(cleanup)
-signal.signal(signal.SIGTERM, cleanup)
-signal.signal(signal.SIGINT, cleanup)
-
