@@ -29,7 +29,7 @@ Update the env in docker-compose.
 
 
 
-## API for video enrichment
+## APIs
 
 ### Request
 `POST http://host-name:service-port/post_queries`
