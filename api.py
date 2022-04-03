@@ -6,7 +6,6 @@ from flask_cors import CORS
 from pymongo import MongoClient
 from utils.index_csv import *
 from core import argsparser
-import atexit
 
 
 app = flask.Flask(__name__)
@@ -32,7 +31,13 @@ def cleanup():
     db=client[dbname]
     db.drop_collection(coll_name)
 
+#Clean the mongo before starting
+if mongo_clean:
+    cleanup()
 
+# Building Mongo with data
+if mongo_build:
+    before_first_request_func()
 
 # Get all the list of patients in the database
 @app.route('/get_patient_list', methods=['GET'])
@@ -43,8 +48,7 @@ def get_patient_list():
 #Get patients with specific name and specific dob
 @app.route('/get_patients', methods=['GET'])
 def get_patient():
-    if mongo_build:
-        before_first_request_func()
+
     request_args = request.get_json(force=True)
     name=''
     if 'name' in list(request_args.keys()):
@@ -66,8 +70,7 @@ def get_patient():
 
     query={'name':name,'dob':dob,'texts':conditions}
     result=mongofind_all_specific_cond(dbname,client,coll_name,query)
-    if mongo_clean:
-        cleanup()
+
     return jsonify(result)
 
 # POST Results for queries

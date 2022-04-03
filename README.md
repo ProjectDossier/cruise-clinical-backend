@@ -8,11 +8,19 @@ Backend service for Cruise Clinical Trails
 2. Dataset with patient records.
 ```
 
+
+## Mongo Build:
+
+```bash
+cd ./mongo
+docker-compose up -d
+```
+
 ## Docker Build: 
 
 ```bash
 docker build -t <docker image name>:tag .
-docker-compose up
+docker-compose up -d
 ```
 Update the env in docker-compose.
 
